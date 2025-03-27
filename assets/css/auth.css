@@ -1,0 +1,170 @@
+/* Form Section - căn giữa */
+.auth-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Form Container */
+.auth-form .form-container {
+    background: rgba(255, 255, 255, 0.97);
+    padding: 50px 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.auth-form .form-container:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.auth-form h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+/* Form Inputs */
+.auth-form input {
+    width: 100%;
+    padding: 14px 18px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: all 0.25s;
+    font-size: 15px;
+    background-color: #f9f9f9;
+}
+
+.auth-form input:focus {
+    border-color: #4facfe;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(79, 172, 254, 0.4);
+}
+
+/* Button Styling */
+.auth-form button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-size: 17px;
+}
+
+.auth-form button:hover {
+    opacity: 0.92;
+    transform: scale(1.02);
+}
+
+/* Error / Success Messages */
+.error-msg {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #d8000c;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.success-msg {
+    background-color: rgba(0, 200, 0, 0.1);
+    color: #0c7c0c;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Link Styling */
+.auth-form p {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-form a {
+    color: #4facfe;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-form a:hover {
+    text-decoration: underline;
+}
+
+/* Animation xuất hiện form */
+@keyframes slideFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-form .form-container {
+    animation: slideFadeIn 0.6s ease forwards;
+}
+
+/* Heading animation */
+.auth-form h2 {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInHeading 0.6s ease forwards;
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeInHeading {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Nút Register riêng biệt - có thể đổi màu khác nếu muốn */
+.auth-form button.register-btn {
+    background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+.auth-form button.register-btn:hover {
+    opacity: 0.92;
+    transform: scale(1.02);
+}
+
+/* Responsive cho form nhỏ hơn khi trên mobile */
+@media (max-width: 480px) {
+    .auth-form .form-container {
+        padding: 35px 20px;
+        border-radius: 14px;
+    }
+
+    .auth-form h2 {
+        font-size: 22px;
+    }
+
+    .auth-form button {
+        font-size: 15px;
+    }
+}

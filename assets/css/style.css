@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+}
+
+.header {
+    background: linear-gradient(270deg, #a94e3b, #c97348, #4a5fa0, #4ea1a1);
+    background-size: 800% 800%;
+    animation: gradientMove 10s ease infinite;
+    color: #fff;
+    padding: 50px 0 30px 0;
+}
+
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.logo {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+}
+
+.navbar {
+    margin-top: 25px;
+}
+
+.navbar a {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 8px 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.content {
+    padding: 30px 0;
+    min-height: 75vh;
+
+}
+
+.footer {
+    background: #222;
+    color: #aaa;
+    padding: 20px 0;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+
+.footer p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .navbar a {
+        margin: 5px 10px;
+        padding: 6px 12px;
+    }
+}
