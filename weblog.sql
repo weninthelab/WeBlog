@@ -9,7 +9,7 @@ CREATE TABLE users (
   email VARCHAR(100),
   role VARCHAR(20), -- admin, premium, user, editor
   bio TEXT,
-  avatar_path VARCHAR(255), -- lưu đường dẫn avatar
+  avatar_path VARCHAR(255), 
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

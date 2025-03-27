@@ -1,0 +1,85 @@
+/* Bố cục chia thành hai phần */
+.message-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Phần Inbox bên trái */
+.message-container {
+    flex: 2;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Phần form gửi tin nhắn bên phải */
+.send-message {
+    flex: 1;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Các trường input */
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Nút gửi */
+button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Định dạng tin nhắn */
+.message {
+    display: flex;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* Định dạng nội dung tin nhắn */
+.message-content {
+    flex-grow: 1;
+}
+
+/* Tiêu đề Inbox và Send Message */
+h2,
+h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
