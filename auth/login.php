@@ -5,7 +5,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
-    $password = $_POST['password']; // Không hash để demo vulnerable
+    $password = $_POST['password'];
     $result = $conn->query("SELECT * FROM users WHERE username='$username' AND password='$password'");
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
