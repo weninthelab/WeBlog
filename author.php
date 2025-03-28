@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
 
 <div class="profile-container">
     <div class="profile-card">
-        <img src="<?php echo htmlspecialchars($author['avatar_path']); ?>" alt="Avatar">
+        <img src="auth/<?php echo htmlspecialchars($author['avatar_path']); ?>" alt="Avatar">
         <h2><?php echo htmlspecialchars($author['username']); ?></h2>
         <p><strong>Email:</strong> <?php echo htmlspecialchars($author['email']); ?></p>
         <p><strong>Bio:</strong> <?php echo nl2br(htmlspecialchars($author['bio'])); ?></p>

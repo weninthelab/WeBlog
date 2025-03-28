@@ -11,15 +11,18 @@ include 'includes/header.php';
         <h4>Top Authors</h4>
         <ul class="author-list">
             <?php
-            $authorResult = $conn->query("
+            $stmt = $conn->prepare("
                 SELECT users.id, users.username, COUNT(posts.id) AS post_count
                 FROM users
                 JOIN posts ON users.id = posts.user_id
-                WHERE users.role != 'admin'
+                WHERE users.role_id != 1
                 GROUP BY users.id, users.username
                 ORDER BY post_count DESC
                 LIMIT 5
             ");
+            $stmt->execute();
+            $authorResult = $stmt->get_result();
+
             while ($author = $authorResult->fetch_assoc()) {
                 $authorName = htmlspecialchars($author['username']);
                 echo "<li><a href='author.php?id={$author['id']}'>{$authorName}</a></li>";
@@ -32,15 +35,31 @@ include 'includes/header.php';
     <main class="main-content">
         <?php
         $isSearch = isset($_GET['q']) && !empty(trim($_GET['q']));
-        $query = '';
+        $userId = $_SESSION['user_id'] ?? null;
+
+        // Kiểm tra nếu user có subscription premium
+        $isPremiumUser = false;
+        if ($userId) {
+            $stmt = $conn->prepare("
+            SELECT 1 FROM subscriptions 
+            WHERE user_id = ? AND status_id = 1
+        ");
+
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $isPremiumUser = $result->num_rows > 0;
+        }
+
         if ($isSearch) {
-            $q = $conn->real_escape_string(trim($_GET['q']));
+            $q = trim($_GET['q']);
             echo "<h2 class='section-title'><i class='fas fa-search'></i> Search results for: <em>" . htmlspecialchars($q) . "</em></h2>";
             $query = "
                 SELECT posts.*, users.username AS author
                 FROM posts
                 JOIN users ON posts.user_id = users.id
-                WHERE posts.title LIKE '%$q%' OR posts.content LIKE '%$q%'
+                WHERE (posts.title LIKE ? OR posts.content LIKE ?) 
+                AND (posts.premium = FALSE OR ?)
                 ORDER BY created_at DESC
             ";
         } else {
@@ -49,12 +68,22 @@ include 'includes/header.php';
                 SELECT posts.*, users.username AS author 
                 FROM posts 
                 JOIN users ON posts.user_id = users.id 
+                WHERE posts.premium = FALSE OR ?
                 ORDER BY created_at DESC
                 LIMIT 9
             ";
         }
 
-        $result = $conn->query($query);
+        $stmt = $conn->prepare($query);
+        if ($isSearch) {
+            $searchParam = "%" . $q . "%";
+            $stmt->bind_param("ssi", $searchParam, $searchParam, $isPremiumUser);
+        } else {
+            $stmt->bind_param("i", $isPremiumUser);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
         echo "<div class='posts-grid'>";
         if ($result->num_rows > 0) {
             while ($post = $result->fetch_assoc()) {
@@ -106,5 +135,4 @@ include 'includes/header.php';
         </ul>
     </aside>
 </div>
-
 <?php include 'includes/footer.php'; ?>

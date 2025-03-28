@@ -1,0 +1,64 @@
+.premium {
+    background: #ffd700;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.admin {
+    background: #ff1900;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.status-completed {
+    background: #bfff00;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.status-ongoing {
+    background: #e5ff00;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.status-cancelled {
+    background: #ff6200;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.status-active {
+    background: #c3d800;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.status-expired {
+    background: #a9a9a9;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+
+
+.user {
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+}

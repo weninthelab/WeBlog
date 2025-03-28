@@ -27,6 +27,7 @@ body {
 
 
 
+
 @keyframes gradientMove {
     0% {
         background-position: 0% 50%;
@@ -106,3 +107,4 @@ body {
         padding: 6px 12px;
     }
 }
+

@@ -19,7 +19,7 @@ if (isset($_GET['id'])) {
         <h1 class="post-title"><?= htmlspecialchars($post['title']) ?></h1>
         <div class="post-meta">
             <img src="<?= $post['avatar_path'] ?>" alt="avatar" class="post-avatar">
-            <span class="post-author"><?= htmlspecialchars($post['username']) ?></span>
+            <b><span class="post-author"><?= htmlspecialchars($post['username']) ?></span></b>
             <span class="post-date"><?= date('d M Y H:i', strtotime($post['created_at'])) ?></span>
             <span class="post-views"><?= $post['views'] ?> views</span>
         </div>
