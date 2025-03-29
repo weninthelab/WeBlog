@@ -5,7 +5,7 @@ include 'includes/header.php';
 <link rel="stylesheet" href="assets/css/home.css">
 
 <div class="container layout-3col">
-    <!-- Sidebar trái (Top Authors) -->
+   
     <aside class="sidebar-left">
         <h4><i class="fas fa-user-edit"></i></h4>
         <h4>Top Authors</h4>
@@ -31,13 +31,12 @@ include 'includes/header.php';
         </ul>
     </aside>
 
-    <!-- Nội dung chính -->
+
     <main class="main-content">
         <?php
         $isSearch = isset($_GET['q']) && !empty(trim($_GET['q']));
         $userId = $_SESSION['user_id'] ?? null;
 
-        // Kiểm tra nếu user có subscription premium
         $isPremiumUser = false;
         if ($userId) {
             $stmt = $conn->prepare("

@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Lấy thông tin plan theo ID từ tham số GET
+
 $plan_id = isset($_GET['plan_id']) ? (int)$_GET['plan_id'] : 0;
 $plan_query = "SELECT * FROM plans WHERE id = $plan_id";
 $plan_result = mysqli_query($conn, $plan_query);
@@ -39,12 +39,12 @@ $qr_code_url = "assets/images/momoqr.jpg";
         <p class="text-center">Duration: <?php echo $plan['duration']; ?> days</p>
 
         <div class="text-center mt-4">
-            <h5>Scan QR Code để thanh toán</h5>
+            <h5>QR Code payment</h5>
             <img src="<?php echo $qr_code_url; ?>" alt="MoMo QR Code" class="img-fluid" style="width: 450px;">
             <br>
             <form action="actions/create_order.php" method="POST">
                 <input type="hidden" name="plan_id" value="<?php echo $plan_id; ?>">
-                <button type="submit" class="btn btn-primary mt-3">Thanh toán qua MoMo</button>
+                <button type="submit" class="btn btn-primary mt-3">Checkout</button>
             </form>
         </div>
 

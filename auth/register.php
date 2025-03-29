@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash(trim($_POST['password']), PASSWORD_BCRYPT);
     $email = trim($_POST['email']);
 
-    // Kiểm tra username hoặc email đã tồn tại chưa
+  
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("sssis", $username, $password, $email, $role_id, $avatar_path);
 
         if ($stmt->execute()) {
-            // Tạo thư mục uploads/<username>/thumbnails
+       
             $user_folder = "uploads/$username";
             $thumbnail_folder = "$user_folder/thumbnails";
 

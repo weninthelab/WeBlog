@@ -6,9 +6,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     die('<div class="alert alert-danger text-center">Access Denied</div>');
 }
 
-$current_user = $_SESSION['username']; // Lấy username của user đang đăng nhập
+$current_user = $_SESSION['username']; 
 
-// Truy vấn lấy danh sách user, ngoại trừ admin đang đăng nhập
+
 $sql = "SELECT users.id, users.username, users.email, roles.name 
         FROM users 
         JOIN roles ON users.role_id = roles.id 

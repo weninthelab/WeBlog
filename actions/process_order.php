@@ -6,10 +6,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['accept_order'])) {
     $order_id = intval($_POST['order_id']);
     $username = $_POST['username'];
 
-
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
+
 
     $query = "SELECT user_id, plan_id FROM orders WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['accept_order'])) {
         mysqli_stmt_fetch($stmt);
         mysqli_stmt_close($stmt);
     } else {
-        $_SESSION['error'] = "Lỗi truy vấn: " . mysqli_error($conn);
-        header("Location:../admin/orders.php");
+        $_SESSION['error'] = "Error query: " . mysqli_error($conn);
+        header("Location: ../admin/orders.php");
         exit;
     }
 
@@ -34,10 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['accept_order'])) {
         if ($status_row = mysqli_fetch_assoc($status_result)) {
             $status_id = $status_row['id'];
         } else {
-            $_SESSION['error'] = "Trạng thái 'completed' không tồn tại.";
+            $_SESSION['error'] = "Unknown 'completed' status.";
             header("Location: ../admin/orders.php");
             exit;
         }
+
 
         $update_order = "UPDATE orders SET status_id = ? WHERE id = ?";
         $stmt = mysqli_prepare($conn, $update_order);
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['accept_order'])) {
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
         } else {
-            $_SESSION['error'] = "Lỗi cập nhật đơn hàng: " . mysqli_error($conn);
+            $_SESSION['error'] = "Error order: " . mysqli_error($conn);
             header("Location: ../admin/orders.php");
             exit;
         }
@@ -61,12 +62,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['accept_order'])) {
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
         } else {
-            $_SESSION['error'] = "Lỗi khi thêm subscription: " . mysqli_error($conn);
+            $_SESSION['error'] = "Error: " . mysqli_error($conn);
             header("Location: ../admin/orders.php");
             exit;
         }
 
-        $_SESSION['success'] = "Order #$order_id đã được chấp nhận và đăng ký subscription.";
+
+        $update_role = "UPDATE users SET role_id = 2 WHERE id = ?";
+        $stmt = mysqli_prepare($conn, $update_role);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "i", $user_id);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        } else {
+            $_SESSION['error'] = "Error updating role: " . mysqli_error($conn);
+            header("Location: ../admin/orders.php");
+            exit;
+        }
+
+        $_SESSION['success'] = "Order #$order_id đã được chấp nhận, đăng ký subscription và cập nhật role.";
     } else {
         $_SESSION['error'] = "Đơn hàng không hợp lệ.";
     }

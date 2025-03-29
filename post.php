@@ -3,16 +3,46 @@
 include 'includes/header.php';
 if (!is_logged_in()) {
     echo "<script>
-        alert('Vui lòng đăng nhập để tiếp tục.');
+        alert('Please login first!');
         window.location.href = 'auth/login.php';
     </script>";
     exit;
 }
 
-if (isset($_GET['id'])) {
+$uid = $_SESSION['user_id']; 
+$post_id = $_GET['id'];
+
+if (isset($post_id)) {
     $id = intval($_GET['id']);
+
+ 
+    $post = $conn->query("
+        SELECT posts.*, users.username, users.avatar_path, posts.premium 
+        FROM posts 
+        JOIN users ON posts.user_id = users.id 
+        WHERE posts.id = $id
+    ")->fetch_assoc();
+
+
+    if ($post['premium']) {
+        $is_premium = $conn->query("
+            SELECT s.id 
+            FROM subscriptions s 
+            JOIN status_descriptions sd ON s.status_id = sd.id 
+            WHERE s.user_id = $uid AND sd.status = 'active' 
+            AND s.end_date > NOW()
+        ")->num_rows > 0;
+
+        if (!$is_premium) {
+            echo "<script>
+                alert('This is a premium post. Please subscribe to access.');
+                window.location.href = 'subscription.php';
+            </script>";
+            exit;
+        }
+    }
+
     $conn->query("UPDATE posts SET views = views + 1 WHERE id = $id");
-    $post = $conn->query("SELECT posts.*, users.username, users.avatar_path FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = $id")->fetch_assoc();
 ?>
 
     <div class="post-container">

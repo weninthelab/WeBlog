@@ -29,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // Chèn đơn hàng mới vào bảng orders
     $insert_order = "INSERT INTO orders (user_id, plan_id, status_id, created_at, payment_method) VALUES (?, ?, ?, NOW(), ?)";
     $stmt = mysqli_prepare($conn, $insert_order);
 

@@ -9,11 +9,11 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Lấy danh sách các plans
+
 $plans_query = "SELECT * FROM plans";
 $plans_result = mysqli_query($conn, $plans_query);
 
-// Lấy subscription hiện tại của user
+
 $subscription_query = "SELECT s.id, p.name, s.start_date, s.end_date, sd.status
                        FROM subscriptions s
                        JOIN plans p ON s.plan_id = p.id
@@ -21,7 +21,7 @@ $subscription_query = "SELECT s.id, p.name, s.start_date, s.end_date, sd.status
                        WHERE s.user_id = $user_id";
 $subscription_result = mysqli_query($conn, $subscription_query);
 
-// Lấy danh sách orders của user
+
 $orders_query = "SELECT o.id, p.name AS plan_name, o.created_at, so.status
                  FROM orders o
                  JOIN plans p ON o.plan_id = p.id
