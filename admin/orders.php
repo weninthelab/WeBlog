@@ -2,12 +2,11 @@
 include_once '../config.php';
 include '../includes/header.php';
 
-// Check if the user is an admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: " . BASE_URL . "/index.php");
     exit;
 }
-// Truy vấn danh sách đơn hàng
+
 $query = "SELECT 
     orders.id, 
     users.username, 
@@ -42,6 +41,7 @@ $result = mysqli_query($conn, $query);
                     <th>Status</th>
                     <th>Payment Method</th>
                     <th>Created At</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,6 +57,19 @@ $result = mysqli_query($conn, $query);
                         </td>
                         <td><?php echo htmlspecialchars($row['payment_method']); ?></td>
                         <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                        <td>
+                            <?php if (strtolower($row['status']) === 'pending') { ?>
+                                <form action="../actions/process_order.php" method="POST">
+                                    <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+                                    <input type="hidden" name="username" value="<?php echo $row['username']; ?>">
+                                    <button type="submit" name="accept_order" class="btn btn-success btn-sm">
+                                        Accept
+                                    </button>
+                                </form>
+                            <?php } else { ?>
+                                <span class="text-muted">Processed</span>
+                            <?php } ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
