@@ -92,7 +92,7 @@ include 'includes/header.php';
                 $date = date('M d, Y', strtotime($post['created_at']));
                 echo "
                     <div class='post-card'>
-                        <img class='post-thumbnail' src='assets/images/default_thumbnail.jpg' alt='Post image'>
+                        <img class='post-thumbnail' src='{$post['thumbnail_path']}' alt='Post image'>
                         <div class='post-card-content'>
                             <h3 class='post-title'>
                                 <a href='post.php?id={$post['id']}'>{$title}</a>

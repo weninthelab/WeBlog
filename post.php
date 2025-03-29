@@ -79,7 +79,7 @@ if (isset($_GET['new']) && is_logged_in()) {
             <textarea id="content" name="content" required></textarea>
 
             <label for="thumbnail">Thumbnail:</label>
-            <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+            <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
 
             <button type="submit">Post</button>
         </form>

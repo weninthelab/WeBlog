@@ -2,13 +2,28 @@
 include_once '../config.php';
 include '../includes/header.php';
 
-if ($_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     die('<div class="alert alert-danger text-center">Access Denied</div>');
 }
 
 $current_user = $_SESSION['username']; // Lấy username của user đang đăng nhập
 
-$result = mysqli_query($conn, "SELECT * FROM users");
+// Truy vấn lấy danh sách user, ngoại trừ admin đang đăng nhập
+$sql = "SELECT users.id, users.username, users.email, roles.name 
+        FROM users 
+        JOIN roles ON users.role_id = roles.id 
+        WHERE users.username != ? 
+        ORDER BY users.username ASC";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Query preparation failed: " . $conn->error);
+}
+$stmt->bind_param("s", $current_user);
+
+
+$stmt->execute();
+$result = $stmt->get_result();
+
 ?>
 
 <meta charset="UTF-8">
@@ -32,20 +47,20 @@ $result = mysqli_query($conn, "SELECT * FROM users");
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = mysqli_fetch_assoc($result)) {
-                    if ($row['username'] === $current_user) continue; 
-                ?>
+                <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['id']); ?></td>
                         <td><?php echo htmlspecialchars($row['username']); ?></td>
                         <td><?php echo htmlspecialchars($row['email']); ?></td>
                         <td>
-                            <span class="<?php echo htmlspecialchars($row['role']); ?>">
-                                <?php echo htmlspecialchars($row['role']); ?>
+                            <span class="<?php echo htmlspecialchars($row['name']); ?>">
+                                <?php echo htmlspecialchars($row['name']); ?>
                             </span>
                         </td>
                         <td>
-                            <a href="delete_user.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            <a href="delete_user.php?id=<?php echo urlencode($row['id']); ?>" 
+                               class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Are you sure?');">Delete</a>
                         </td>
                     </tr>
                 <?php } ?>

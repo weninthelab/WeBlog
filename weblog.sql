@@ -64,6 +64,7 @@ CREATE TABLE posts (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   views INT DEFAULT 0,
   premium BOOLEAN DEFAULT FALSE,
+  thumbnail_path text NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -160,46 +161,46 @@ INSERT INTO plans (name, price, duration) VALUES
 INSERT INTO users (username, password, email, role_id, bio, avatar_path) VALUES
 ('admin', 'admin@123', 'admin@weblog.com', 1, 'Administrator of the website', 'assets/images/default_ava.png'),
 ('tnqa', 'tnqa@123', 'quocanh@weblog.com', 2, 'I love premium content', 'assets/images/default_ava.png'),
-('huynhson', 'huynhson@123', 'predator@weblog.com', 3, 'Just a regular user', 'assets/images/default_ava.png');
+('huynhson', 'huynhson@123', 'predator@weblog.com', 3, 'Just a regular user', 'assets/images/default_ava.png'),
+('john_doe', 'password123', 'john@weblog.com', 3, 'Tech enthusiast', 'assets/images/default_ava.png'),
+('alice_wonder', 'alicepass', 'alice@weblog.com', 2, 'Premium subscriber', 'assets/images/default_ava.png'),
+('bob_builder', 'bobpass', 'bob@weblog.com', 3, 'Love to blog', 'assets/images/default_ava.png');
 
--- Thêm dữ liệu vào bảng subscriptions
-INSERT INTO subscriptions (user_id, plan_id, start_date, end_date, status_id) VALUES
-(2, 2, '2025-03-01', '2025-06-01', 1),
-(3, 1, '2025-03-10', '2025-04-10', 2);
+-- Thêm nhiều bài viết
+INSERT INTO posts (user_id, title, content, views, premium, thumbnail_path) VALUES
+(1, 'Welcome to Weblog', 'This is the first post.', 100, FALSE, 'auth/uploads/admin/thumbnails/1.png'),
+(2, 'Premium Content', 'Only for premium users.', 50, TRUE, 'auth/uploads/tnqa/thumbnails/2.png'),
+(3, 'Tech Trends 2025', 'Upcoming technologies...', 200, FALSE, 'auth/uploads/huynhson/thumbnails/3.png');
 
--- Thêm dữ liệu vào bảng posts
-INSERT INTO posts (user_id, title, content, premium) VALUES
-(2, 'Premium Content', 'This is an exclusive article for premium users.', TRUE),
-(3, 'Public Blog Post', 'This is a free blog post accessible by everyone.', FALSE);
-
--- Thêm dữ liệu vào bảng comments
+-- Thêm nhiều bình luận
 INSERT INTO comments (post_id, user_id, comment) VALUES
-(1, 3, 'This is a great post!'),
-(2, 2, 'Thank you for sharing.');
+(1, 2, 'Great post!'),
+(1, 3, 'Very informative!'),
+(2, 1, 'I love this premium content!');
 
--- Thêm dữ liệu vào bảng logs
+-- Thêm nhiều đơn hàng
+INSERT INTO orders (user_id, plan_id, status_id, payment_method) VALUES
+(1, 3, 1, 'Credit Card'),
+(2, 2, 2, 'PayPal'),
+(3, 1, 3, 'Bank Transfer');
+
+-- Thêm nhiều subscriptions
+INSERT INTO subscriptions (user_id, plan_id, end_date, status_id) VALUES
+(1, 3, DATE_ADD(NOW(), INTERVAL 180 DAY), 1),
+(2, 2, DATE_ADD(NOW(), INTERVAL 90 DAY), 1),
+(3, 1, DATE_ADD(NOW(), INTERVAL 30 DAY), 2);
+
+-- Thêm nhiều logs
 INSERT INTO logs (user_id, action, ip_address) VALUES
 (1, 'Logged in', '192.168.1.1'),
-(2, 'Updated profile', '192.168.1.2');
+(2, 'Updated profile', '192.168.1.2'),
+(3, 'Posted a comment', '192.168.1.3');
 
--- Thêm dữ liệu vào bảng messages
+-- Thêm nhiều tin nhắn
 INSERT INTO messages (sender_id, receiver_id, subject, message) VALUES
-(1, 2, 'Welcome', 'Welcome to our premium membership!'),
-(2, 3, 'Hello', 'How are you doing?');
+(1, 2, 'Welcome!', 'Glad to have you here.'),
+(2, 3, 'Subscription Info', 'Your subscription is active.'),
+(3, 1, 'Tech Talk', 'Let’s discuss tech trends.');
 
--- Thêm dữ liệu vào bảng orders
-INSERT INTO orders (user_id, plan_id, status_id, payment_method) VALUES
-(2, 2, 1, 'Credit Card'),
-(3, 1, 2, 'PayPal');
-
--- Thêm dữ liệu vào bảng webhooks
-INSERT INTO webhooks (provider, payload) VALUES
-('Stripe', '{"event": "payment_success", "user": 2, "amount": 19.99}'),
-('PayPal', '{"event": "payment_pending", "user": 3, "amount": 9.99}');
-
--- Thêm dữ liệu vào bảng saved_cards
-INSERT INTO saved_cards (user_id, card_number, card_expiry, card_cvv) VALUES
-(2, '4111111111111111', '12/26', '123'),
-(3, '5500000000000004', '11/25', '456');
 
 

@@ -2,11 +2,25 @@
 include_once '../config.php';
 include '../includes/header.php';
 
-if ($_SESSION['role'] !== 'admin') {
-    die('<div class="alert alert-danger text-center">Access Denied</div>');
+// Check if the user is an admin
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: " . BASE_URL . "/index.php");
+    exit;
 }
+// Truy vấn danh sách đơn hàng
+$query = "SELECT 
+    orders.id, 
+    users.username, 
+    plans.price AS amount, 
+    status_orders.status AS status, 
+    orders.payment_method, 
+    orders.created_at 
+FROM orders 
+JOIN users ON orders.user_id = users.id 
+JOIN plans ON orders.plan_id = plans.id 
+JOIN status_orders ON orders.status_id = status_orders.id";
 
-$result = mysqli_query($conn, "SELECT orders.id, users.username, orders.amount, orders.status, orders.payment_method, orders.created_at FROM orders INNER JOIN users ON orders.user_id = users.id");
+$result = mysqli_query($conn, $query);
 ?>
 
 <meta charset="UTF-8">
@@ -35,7 +49,7 @@ $result = mysqli_query($conn, "SELECT orders.id, users.username, orders.amount, 
                     <tr>
                         <td><?php echo htmlspecialchars($row['id']); ?></td>
                         <td><?php echo htmlspecialchars($row['username']); ?></td>
-                        <td><?php echo htmlspecialchars($row['amount']); ?></td>
+                        <td><?php echo number_format($row['amount'], 2); ?> USD</td>
                         <td>
                             <span class="status-<?php echo htmlspecialchars(strtolower($row['status'])); ?>">
                                 <?php echo htmlspecialchars($row['status']); ?>

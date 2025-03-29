@@ -5,8 +5,21 @@ include '../includes/header.php';
 if ($_SESSION['role'] !== 'admin') {
     die('<div class="alert alert-danger text-center">Access Denied</div>');
 }
+$result = mysqli_query($conn, "
+    SELECT 
+        subscriptions.id, 
+        users.username, 
+        plans.name AS plan, 
+        plans.price, 
+        subscriptions.start_date, 
+        subscriptions.end_date, 
+        status_descriptions.status 
+    FROM subscriptions 
+    INNER JOIN users ON subscriptions.user_id = users.id 
+    INNER JOIN plans ON subscriptions.plan_id = plans.id 
+    INNER JOIN status_descriptions ON subscriptions.status_id = status_descriptions.id
+");
 
-$result = mysqli_query($conn, "SELECT subscriptions.id, users.username, subscriptions.plan, subscriptions.price, subscriptions.start_date, subscriptions.end_date, subscriptions.status FROM subscriptions INNER JOIN users ON subscriptions.user_id = users.id");
 ?>
 
 <meta charset="UTF-8">

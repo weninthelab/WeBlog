@@ -1,5 +1,5 @@
 .premium {
-    background: #ffd700;
+    background: #ffd000;
     color: #000;
     padding: 2px 6px;
     border-radius: 5px;
@@ -15,15 +15,15 @@
 }
 
 .status-completed {
-    background: #bfff00;
+    background: #40ff00;
     color: #000;
     padding: 2px 6px;
     border-radius: 5px;
     font-size: 12px;
 }
 
-.status-ongoing {
-    background: #e5ff00;
+.status-pending {
+    background: #fff41c;
     color: #000;
     padding: 2px 6px;
     border-radius: 5px;

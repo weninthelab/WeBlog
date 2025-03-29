@@ -7,40 +7,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = password_hash(trim($_POST['password']), PASSWORD_BCRYPT);
     $email = trim($_POST['email']);
-    
+
     // Kiểm tra username hoặc email đã tồn tại chưa
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
     $stmt->store_result();
-    
+
     if ($stmt->num_rows > 0) {
         $message = "Username or Email already exists!";
     } else {
         $stmt->close();
-        
-        // Mặc định role_id là 'user'
+
         $role_id = 3;
-        $avatar_path = "uploads/$username/default_ava.png";
-        
+        $avatar_path = "auth/uploads/$username/default_ava.png";
+
         $stmt = $conn->prepare("INSERT INTO users (username, password, email, role_id, avatar_path) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssis", $username, $password, $email, $role_id, $avatar_path);
-        
+
         if ($stmt->execute()) {
             // Tạo thư mục uploads/<username>/thumbnails
             $user_folder = "uploads/$username";
             $thumbnail_folder = "$user_folder/thumbnails";
-            
+
             if (!file_exists($user_folder)) {
                 mkdir($user_folder, 0777, true);
             }
             if (!file_exists($thumbnail_folder)) {
                 mkdir($thumbnail_folder, 0777, true);
             }
-            
-            // Copy file default avatar
+
+
             copy("../assets/images/default_ava.png", "$user_folder/default_ava.png");
-            
+
             $message = "Register success! <a href='login.php'>Login here</a>";
         } else {
             $message = "Registration failed! Please try again.";

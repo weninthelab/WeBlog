@@ -20,21 +20,3 @@ $(document).ready(function () {
 });
 
 
-$(document).ready(function () {
-    $("#createPostForm").submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            url: "actions/create_post.php",
-            type: "POST",
-            data: $(this).serialize(),
-            success: function (response) {
-                $("#postStatus").html(response);
-                $("#createPostForm")[0].reset(); // Reset form sau khi gửi
-            },
-            error: function () {
-                $("#postStatus").html("<p class='error'>Failed to create post!</p>");
-            }
-        });
-    });
-});
