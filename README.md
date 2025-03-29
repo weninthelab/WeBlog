@@ -7,7 +7,7 @@ WeBlog is a web-based blogging platform designed for cybersecurity enthusiasts a
 - User authentication and registration
 - Blog post creation, editing, and deletion
 - Commenting system
-- User role management (Admin, Author, Reader)
+- User role management (Admin, User, Premium)
 - File upload functionality
 - Search and filtering capabilities
 
