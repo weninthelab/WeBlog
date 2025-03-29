@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="assets/css/post.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <?php
 include 'includes/header.php';
 if (!is_logged_in()) {
@@ -9,13 +10,11 @@ if (!is_logged_in()) {
     exit;
 }
 
-$uid = $_SESSION['user_id']; 
-$post_id = $_GET['id'];
+$uid = $_SESSION['user_id'];
 
-if (isset($post_id)) {
+if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
- 
     $post = $conn->query("
         SELECT posts.*, users.username, users.avatar_path, posts.premium 
         FROM posts 
@@ -99,22 +98,41 @@ if (isset($post_id)) {
 
 if (isset($_GET['new']) && is_logged_in()) {
 ?>
-    <div class="new-post-container">
-        <h2>Create a New Post</h2>
-        <form id="createPostForm" method="post" action="actions/create_post.php" enctype="multipart/form-data">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+    <?php
+    $role = $_SESSION['role'] ?? 3;
+    ?>
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4">
+            <h2 class="mb-4 text-center">📝 Create a New Post</h2>
+            <form id="createPostForm" method="post" action="actions/create_post.php" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-bold">Title</label>
+                    <input type="text" id="title" name="title" class="form-control rounded-pill px-3" required placeholder="Enter post title...">
+                </div>
 
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" required></textarea>
+                <div class="mb-3">
+                    <label for="content" class="form-label fw-bold">Content</label>
+                    <textarea id="content" name="content" class="form-control" rows="5" required placeholder="Write something interesting..."></textarea>
+                </div>
 
-            <label for="thumbnail">Thumbnail:</label>
-            <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
+                <div class="mb-3">
+                    <label for="thumbnail" class="form-label fw-bold">Thumbnail</label>
+                    <input type="file" id="thumbnail" name="thumbnail" class="form-control" accept="image/*">
+                </div>
 
-            <button type="submit">Post</button>
-        </form>
-        <p id="postStatus"></p>
+                <?php if ($role == 'premium'): ?>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="premium" name="premium" class="form-check-input">
+                        <label for="premium" class="form-check-label">Make this a premium post</label>
+                    </div>
+                <?php endif; ?>
+
+                <button type="submit" class="btn btn-primary w-100 fw-bold">🚀 Post Now</button>
+            </form>
+            <p id="postStatus" class="mt-3 text-center text-muted"></p>
+        </div>
     </div>
+
 
 <?php
 }

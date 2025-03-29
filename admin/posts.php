@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo htmlspecialchars($row['views']); ?></td>
                         <td><?php echo htmlspecialchars($row['comment_count']); ?></td>
                         <td>
-                            <?php echo $row['premium'] ? "<span class='premium'>Premium Post</span>" : "Normal"; ?>
+                            <?php echo $row['premium'] ? "<span class='premium'>Premium</span>" : "Normal"; ?>
                         </td>
 
                         <td>
