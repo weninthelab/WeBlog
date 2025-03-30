@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if (!$conn) {
-        die("Lỗi kết nối: " . mysqli_connect_error());
+        die("Error connection: " . mysqli_connect_error());
     }
 
 
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->bind_param("issis", $user_id, $title, $content, $premium, $thumbnail_path);
     if (!$stmt->execute()) {
-        die("Lỗi: " . $stmt->error);
+        die("Error: " . $stmt->error);
     }
 
 
