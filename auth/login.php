@@ -5,7 +5,7 @@ include_once BASE_PATH . '/includes/header.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     $stmt = $conn->prepare("
@@ -21,11 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-
-        if ($user) {
+        if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
+
+            session_regenerate_id(true);
 
             if ($user['role'] === 'admin') {
                 header('Location: ' . BASE_URL . '/admin/index.php');
@@ -58,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="form-container">
         <h2>Login to WeBlog</h2>
         <?php if ($error): ?>
-            <p class="error-msg"><?php echo $error; ?></p>
+            <p class="error-msg"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
         <?php endif; ?>
         <form method="post">
             <input name="username" placeholder="Username" required>

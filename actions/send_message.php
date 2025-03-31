@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<p class='error'>Failed to send message!</p>";
         }
     } else {
-        echo "<p class='error'>User not found!</p>";
+        echo "<p class='error'>$receiver_username not found!</p>";
     }
 } else {
     echo "<p class='error'>Invalid request!</p>";

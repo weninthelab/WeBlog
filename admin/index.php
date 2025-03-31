@@ -58,7 +58,7 @@ $top_commenter = $conn->query(
 <?php include_once BASE_PATH . '/includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h1 class="mb-4">Welcome, Admin!</h1>
+    <h1 class="mb-4">Welcome, <?php echo $_SESSION['username'] ?>!</h1>
     <p class="lead">Below are system statistics:</p>
 
     <div class="row text-center">
